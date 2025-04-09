@@ -1,0 +1,3 @@
+org.apache.commons.io.channels.FileChannelsTest
+org.apache.commons.io.input.TailerTest
+org.apache.commons.io.FileUtilsTest
