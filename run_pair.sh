@@ -83,7 +83,7 @@ else
     echo "Created junit-platform.properties with custom order lines."
 fi
 
-for i in {1..10}; do
+for i in {1..2}; do
     echo -e "\niteration: $i\n"
     run_tests "$i" "$i"
 done

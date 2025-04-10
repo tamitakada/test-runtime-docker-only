@@ -22,12 +22,17 @@ CustomOrderer_path="/Scratch/CustomOrderer.java"
 # maven options
 MVN_OPTS="-Djacoco.skip=true -Dmaven.javadoc.skip=true -Drat.skip=true -Dmaven.test.failure.ignore=true \
 -fn -Dlicense.skip=true -Dcheckstyle.skip -Denforcer.skip=true -Dspotbugs.skip=true -Dfindbugs.skip=true \
--DfailIfNoTests=false -DdetailLevel=elaborate -DskipSurefireTests=true -Dmaven.failAtEnd=true -DskipUTs=true"
+-DfailIfNoTests=false -DdetailLevel=elaborate -DskipSurefireTests=true -Dmaven.failAtEnd=true -DskipUTs=true \
+-Dtest=$test_class"
 
 mkdir -p experiment
 mkdir -p results-java
 exDir="$(pwd)/experiment"
 res_dir="$(pwd)/results-java"
+
+#ADD MavenMyListener MavenMyListener
+#RUN chmod -R 777 MavenMyListener
+#RUN chmod -R 777 /home/listener
 
 cp -r /Scratch/MavenMyListener "${exDir}"
 
@@ -134,14 +139,14 @@ if [ "$custom_order" != "" ]; then
         echo "Created junit-platform.properties with custom order lines."
     fi
 
-    for i in {1..3}; do
+    for i in {1..10}; do
         echo -e "\niteration: $i\n"
         run_tests "$i" "$i"
     done
 
 elif [ "$random" != "" ]; then
     mkdir -p "${project_root_dir}/src/test/resources"  # create the 'resources' directory if it doesn't exist
-    for i in {1..10}; do
+    for i in {1..30}; do
         echo -e "\norder: $i\n"
         random_seed=$(od -An -N7 -t u8 /dev/urandom)
         echo "Using seed: $random_seed"
@@ -153,14 +158,14 @@ elif [ "$random" != "" ]; then
             echo -e "junit.jupiter.testclass.order.default=org.junit.jupiter.api.ClassOrderer\$Random\njunit.jupiter.execution.order.random.seed=$random_seed" > "$project_root_dir/src/test/resources/junit-platform.properties"
         fi
 
-        for j in {1..3}; do
+        for j in {1..10}; do
             echo -e "\niteration: $j\n"
             run_tests "$j" "order_$i/$j"
         done
     done
 else
     echo "Using default test class order"
-    for i in {1..3}; do
+    for i in {1..10}; do
         echo ""
         echo "iteration: $i"
         echo ""

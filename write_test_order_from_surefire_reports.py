@@ -39,7 +39,7 @@ def write_order_to_file(order, output_path):
         file.writelines([item + '\n' for item in order])
 
 
-surefire_reports_dir = os.path.join(project_root, 'target/surefire-reports')
+surefire_reports_dir = os.path.join(project_root, 'surefire-reports')
 test_methods = get_test_methods_from_surefire_reports(surefire_reports_dir)
 print("len(test_methods) =", len(test_methods))
 # write order file
